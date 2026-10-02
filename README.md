@@ -1,36 +1,28 @@
-# Crowsi Boundary Monitor
+# crowsi-boundary-monitor
 
-Provider-neutral network isolation evaluation for Coela and Ecosystem Control.
-It accepts bounded metadata from Linux, Incus, WSL, container, or cloud
-adapters and emits `crowsi://network/boundary-snapshot/v1`.
+Assess isolation boundaries from a supplied environment observation.
 
-The monitor does not open sockets, inspect packet content, read credentials, or
-change firewall and routing state. `sample` and `evaluate` are local-only.
+## What you can do
 
-```bash
-cargo run -- sample
-cargo run -- evaluate examples/boundary-input.sample.json
-cargo run -- coverage-sample
-cargo run -- coverage-unconfigured
-cargo run -- evaluate-coverage examples/control-coverage.sample.json
-cargo test
+- Evaluate Linux, container, WSL, Incus or cloud boundary metadata.
+- Review coverage and missing boundary evidence.
+
+## Current scope
+
+Collectors supply sanitized observations. The monitor evaluates them without provisioning or changing a boundary.
+
+Package distribution is not activated by this documentation. Use the checked-in source and the declared dependency versions; published availability must be verified separately.
+
+## Getting started
+
+Install Rust 1.97 or newer and make the declared dependencies available. Use the configured private registry when a dependency is not distributed publicly. Run from this repository:
+
+```sh
+cargo test --locked
 ```
 
-An environment is healthy only when its observed isolation mode matches the
-declared expectation and its management endpoint is not exposed. Unknown
-provider state remains unknown instead of being treated as healthy.
+## Documentation and source
 
-Incus-specific inventory collection belongs to `incus-isolation-adapter`.
-Crowsi owns the common boundary vocabulary, cross-environment evaluation, and
-security dashboard contract.
+[Usage guide](docs/getting-started.md)
 
-The v2 control-coverage view proves whether every declared asset has current
-observation, management authority, a ready enforcer, an out-of-band lifeline,
-all quarantine/revocation/verification/recovery actions, and a current drill.
-Unknown, stale, unmanaged, and partial assets never become `controlled`.
-
-`coverage-sample` and `evaluate-coverage` are deterministic contract and
-simulation tools. Their unsigned input is not production evidence and is not
-accepted by the standard Coela refresh path as proof of `controlled` state.
-Production promotion requires a separate role-scoped signature verifier for
-the authority, sensor, enforcer, lifeline, and drill attestations.
+[Examples](examples) · [Schemas](schemas) · [Implementation and public interfaces](src) · [Verification cases](tests) · [Contributing](CONTRIBUTING.md) · [Security reporting](SECURITY.md) · [License](LICENSE) · [Attribution notices](NOTICE)
